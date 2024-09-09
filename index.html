@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Secret</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #ff0000; /* Rosso intenso */
+            font-size: 3em;
+            text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000; /* Bagliore neon */
+            animation: neonBlink 2s infinite; /* Animazione neon */
+        }
+
+        /* Animazione neon */
+        @keyframes neonBlink {
+            0%, 20% { text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000; opacity: 1; }
+            25%, 35% { text-shadow: none; opacity: 0.8; } /* Spegne brevemente */
+            40%, 100% { text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000; opacity: 1; }
+        }
+
+        button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkgreen;
+        }
+
+        #password-section, #details-section {
+            display: none;
+        }
+
+        #back-button {
+            margin-top: 20px;
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="top-secret">
+        <h1>Top Secret</h1>
+        <button id="openPassword">Inserisci Password</button>
+    </div>
+
+    <div id="password-section">
+        <h2>Inserisci il codice a 4 cifre</h2>
+        <input type="password" id="passwordInput" maxlength="4" placeholder="0000">
+        <button id="submitPassword">Invia</button>
+        <p id="error" style="color: red; display: none;">Codice errato!</p>
+    </div>
+
+    <div id="details-section">
+        <h2>Dettagli</h2>
+        <p><strong>Nome:</strong> <span id="name"></span></p>
+        <p><strong>Cognome:</strong> <span id="surname"></span></p>
+        <p><strong>Professione:</strong> <span id="profession"></span></p>
+        <p><strong>Dress Code:</strong> <span id="dresscode"></span></p>
+        <button id="back-button">Torna Indietro</button>
+    </div>
+
+    <script>
+        const validCodes = {
+            '1234': {
+                name: 'Mario',
+                surname: 'Rossi',
+                profession: 'Investigatore Privato',
+                dresscode: 'Smoking'
+            },
+            '5678': {
+                name: 'Luca',
+                surname: 'Bianchi',
+                profession: 'Agente Segreto',
+                dresscode: 'Giacca e Cravatta'
+            }
+        };
+
+        document.getElementById('openPassword').addEventListener('click', function() {
+            document.getElementById('top-secret').style.display = 'none';
+            document.getElementById('password-section').style.display = 'block';
+        });
+
+        document.getElementById('submitPassword').addEventListener('click', function() {
+            const inputCode = document.getElementById('passwordInput').value;
+            if (validCodes[inputCode]) {
+                document.getElementById('password-section').style.display = 'none';
+                document.getElementById('details-section').style.display = 'block';
+                document.getElementById('name').textContent = validCodes[inputCode].name;
+                document.getElementById('surname').textContent = validCodes[inputCode].surname;
+                document.getElementById('profession').textContent = validCodes[inputCode].profession;
+                document.getElementById('dresscode').textContent = validCodes[inputCode].dresscode;
+                document.getElementById('error').style.display = 'none';
+            } else {
+                document.getElementById('error').style.display = 'block';
+            }
+        });
+
+        document.getElementById('back-button').addEventListener('click', function() {
+            document.getElementById('details-section').style.display = 'none';
+            document.getElementById('password-section').style.display = 'block';
+            document.getElementById('passwordInput').value = ''; // Resetta il campo password
+            document.getElementById('error').style.display = 'none'; // Nasconde eventuali errori
+        });
+    </script>
+</body>
+</html>
