@@ -9,25 +9,32 @@
             margin: 0;
             height: 100vh;
             background-color: black;
-            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
             font-family: Arial, sans-serif;
+            overflow: hidden;
         }
+
+        /* Stile della schermata principale */
+        .container {
+            text-align: center;
+            color: white;
+        }
+
         h1 {
-            color: #ff0000; /* Rosso intenso */
+            color: #ff0000;
             font-size: 3em;
-            text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000; /* Bagliore neon */
-            animation: neonBlink 2s infinite; /* Animazione neon */
+            text-align: center;
+            text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000;
+            animation: neonBlink 2s infinite;
         }
 
         /* Animazione neon */
         @keyframes neonBlink {
-            0%, 20% { text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000; opacity: 1; }
-            25%, 35% { text-shadow: none; opacity: 0.8; } /* Spegne brevemente */
-            40%, 100% { text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #ff0000; opacity: 1; }
+            0%, 20% { opacity: 1; }
+            25%, 35% { opacity: 0.8; }
+            40%, 100% { opacity: 1; }
         }
 
         button {
@@ -35,8 +42,9 @@
             color: white;
             border: none;
             padding: 10px 20px;
-            font-size: 1.5em;
+            font-size: 1.2em;
             cursor: pointer;
+            margin-top: 20px;
         }
 
         button:hover {
@@ -48,47 +56,154 @@
         }
 
         #back-button {
-            margin-top: 20px;
             background-color: gray;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1.2em;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            border-radius: 50%;
         }
+
     </style>
 </head>
 <body>
 
-    <div id="top-secret">
+    <!-- Schermata iniziale -->
+    <div id="top-secret" class="container">
         <h1>Top Secret</h1>
         <button id="openPassword">Inserisci Password</button>
     </div>
 
-    <div id="password-section">
+    <!-- Sezione per inserire la password -->
+    <div id="password-section" class="container">
+        <button id="back-button">&#8592;</button> <!-- Pulsante freccia indietro -->
         <h2>Inserisci il codice a 4 cifre</h2>
         <input type="password" id="passwordInput" maxlength="4" placeholder="0000">
         <button id="submitPassword">Invia</button>
         <p id="error" style="color: red; display: none;">Codice errato!</p>
     </div>
 
-    <div id="details-section">
+    <!-- Sezione dei dettagli -->
+    <div id="details-section" class="container">
+        <button id="back-button-details">&#8592;</button> <!-- Pulsante freccia indietro -->
         <h2>Dettagli</h2>
         <p><strong>Nome:</strong> <span id="name"></span></p>
         <p><strong>Cognome:</strong> <span id="surname"></span></p>
-        <p><strong>Professione:</strong> <span id="profession"></span></p>
+        <p><strong>Ruolo:</strong> <span id="profession"></span></p>
         <p><strong>Dress Code:</strong> <span id="dresscode"></span></p>
-        <button id="back-button">Torna Indietro</button>
+        <p><strong>Difetto:</strong> <span id="flaw"></span></p> <!-- Campo difetto -->
     </div>
 
     <script>
         const validCodes = {
             '1234': {
-                name: 'Mario',
-                surname: 'Rossi',
-                profession: 'Investigatore Privato',
-                dresscode: 'Smoking'
+                name: 'Andrea',
+                surname: 'Elleni',
+                profession: 'Studentessa di scuola superiore',
+                dresscode: 'Top e pantaloncini eleganti con lo zaino di scuola contente libri pesanti',
+                flaw: 'Quando parla fa la preziosa'
+            },
+            '6666': {
+                name: 'Mariangela',
+                surname: 'Eboli',
+                profession: 'Bocca di rosa',
+                dresscode: 'Un po\' osé, ricorda che sei in oratorio',
+                flaw: 'Un po\' scaricatore di porto'
+            },
+            '1111': {
+                name: 'Rita',
+                surname: 'Moscerino',
+                profession: 'Giornalista Francese stronza e baba',
+                dresscode: 'Elegante',
+                flaw: 'Fa troppe domande'
+            },
+            '6754': {
+                name: 'Sole',
+                surname: 'Tramontava',
+                profession: 'Prof. di inglese del sud (l\'inglese non lo sa)',
+                dresscode: 'Camicia bianca ed occhiali con cordino con collana grande di perle',
+                flaw: 'Biascichi le parole'
             },
             '5678': {
-                name: 'Luca',
-                surname: 'Bianchi',
-                profession: 'Agente Segreto',
-                dresscode: 'Giacca e Cravatta'
+                name: 'Guido',
+                surname: 'Di Rado',
+                profession: 'Generale di guerra dopo aver subito un intervento',
+                dresscode: 'Alta uniforme',
+                flaw: 'Parla solo di come era bravo a guidare i carri armati'
+            },
+            '2222': {
+                name: 'Valentino',
+                surname: 'Khiaro',
+                profession: 'Maranza',
+                dresscode: 'Maranza style, borsello',
+                flaw: 'Hai la erre moscia'
+            },
+            '9834': {
+                name: 'Domitilla',
+                surname: 'Mal Contenta',
+                profession: 'Nonna',
+                dresscode: 'Scialle e bastone',
+                flaw: 'Parla un misto tra dialetto ed italiano sbagliato (sbaglia i verbi)'
+            },
+            '1342': {
+                name: 'Stefano',
+                surname: 'Coniglio o meglio noto come stp3n1',
+                profession: 'Famoso youtuber',
+                dresscode: 'Tuta e cuffie da gaming',
+                flaw: 'Parla in slang'
+            },
+            '8899': {
+                name: 'Chiara',
+                surname: 'Allumagni',
+                profession: 'Influencer',
+                dresscode: 'Molto elegante, devi fare colpo',
+                flaw: 'Fare colpo sul CEO di Instagram (tocca a te scoprire chi è)'
+            },
+            '4907': {
+                name: 'Tonya',
+                surname: 'Esse',
+                profession: 'Rapper fallita',
+                dresscode: 'Rapper ma emo',
+                flaw: 'Parla in rima'
+            },
+            '9432': {
+                name: 'Anna',
+                surname: 'Maram',
+                profession: 'Animatrice dei balli di gruppo anni \'60',
+                dresscode: 'Fascetta, polsini, maglia animatori e pantaloncini kipsta',
+                flaw: 'Vuole sempre ballare'
+            },
+            '8796': {
+                name: 'Adamo',
+                surname: 'Mosseri',
+                profession: 'CEO di Instagram, in realtà agente segreto',
+                dresscode: 'Giacca e cravatta',
+                flaw: 'Nessuno, è tipo 007, anzi si crede Dio'
+            },
+            '0022': {
+                name: 'Alina',
+                surname: 'Matova',
+                profession: 'Ballerina russa',
+                dresscode: 'Elegante come al teatro',
+                flaw: 'Parla male italiano'
+            },
+            '6538': {
+                name: 'Sr Adeodata',
+                surname: 'Amadio',
+                profession: 'Suora tipo (Mona)ca di Monza',
+                dresscode: 'Suora',
+                flaw: 'Cerca l\'amore proibito, devi fare un po\' la zitella. TI VOGLIAMO BENE :)'
+            },
+            '4569': {
+                name: 'Sheldon',
+                surname: 'Rame',
+                profession: 'ING. chimico',
+                dresscode: 'Maglietta dei film e jeans',
+                flaw: 'Sapientone e per lui tutto dovrebbe essere regolamentato'
             }
         };
 
@@ -106,6 +221,7 @@
                 document.getElementById('surname').textContent = validCodes[inputCode].surname;
                 document.getElementById('profession').textContent = validCodes[inputCode].profession;
                 document.getElementById('dresscode').textContent = validCodes[inputCode].dresscode;
+                document.getElementById('flaw').textContent = validCodes[inputCode].flaw;
                 document.getElementById('error').style.display = 'none';
             } else {
                 document.getElementById('error').style.display = 'block';
@@ -113,11 +229,15 @@
         });
 
         document.getElementById('back-button').addEventListener('click', function() {
+            document.getElementById('password-section').style.display = 'none';
+            document.getElementById('top-secret').style.display = 'block';
+        });
+
+        document.getElementById('back-button-details').addEventListener('click', function() {
             document.getElementById('details-section').style.display = 'none';
             document.getElementById('password-section').style.display = 'block';
-            document.getElementById('passwordInput').value = ''; // Resetta il campo password
-            document.getElementById('error').style.display = 'none'; // Nasconde eventuali errori
         });
     </script>
+
 </body>
 </html>
